@@ -1,0 +1,93 @@
+Práctica 1 de ASAII
+
+repaso, codificar las órdenes de ensamblador
+
+lui $1 0x00001001
+
+según el manual del procesador:
+
+0xf 0 rt imm
+
+001111 00000 00001
+
+ahora, coges de 4 en 4
+
+0011 1100 0000 0001
+
+que en hex es
+
+3c 01 10 01
+
+
+(deberías hacerlo con el resto de instrucciones del programa)
+
+ori $4, $1, 0x00000000
+
+0xd rs rt imm (con sus correspondientes representaciones de x bits)
+
+001101 00001 00100 0000000000000000
+
+0011 0100 0010 0100 0000 0000 0000 0000
+
+3    4    2    4    0    0    0    0
+
+
+----------------------
+
+addiu $2, $0, 0x00000004
+
+
+0010 0100 0100 0000 0000 0000 0000 0100
+
+2 4 4 0 0 0 0 4
+
+---------------------------------
+
+syscall
+
+000000 00000000000000000000 010000
+
+0000 0000 0000 0000 0000 0000 0001 0000
+
+...
+
+
+
+
+PRÁCTICA 1
+A--------------------------------------------------------------------------------------
+1-32 BITS
+2-0x00400004
+3-Little Indian. Se puede ver por el almacenamiento de las instrucciones en la memoria
+4-Lo he hecho arriba
+5-Mars manualusuario, transpa 4, columna format
+6-Estamos utilizando direccionamiento inmediato en este programa concreto
+--------------------------------------------------------------------------------------
+B
+2-0x10010000
+3-Little endian. Lo mismo de antes, por la ordenación de las instrucciones en memoria
+4-22 bytes, todo lo que ocupa la cadena
+-----------------------------------------------------------------------------------------
+C
+
+El c lo dejamos como ejercicio.
+
+---------------------------------------------------------------------------------------
+D
+
+lo dejamos como ejercicio
+
+---------------------------------------------------------------------------------------
+
+E
+
+Simulemos un programa
+
+
+
+
+
+
+
+
+
