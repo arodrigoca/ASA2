@@ -90,11 +90,5 @@ Simulación del programa.
 Main, array e index están como etiquetas y tienen asignadas una dirección de memoria.
 12 palabras ocupadas en total.
 
-
-
-
-
-
-
-
-
+Lo que hace este programa es cargar en los registros t0, t1, t2, t3 los 4 valores del array respectivamente (10, 11, 12, 13).
+En hexadecimal, lo que se almacena es a,b,c,d
