@@ -74,20 +74,21 @@ C
 (el % y la d van separados), el /n va junto y luego siempre hay un cero al final en asciiz. Ocupa 5 palabras de
 32 bits.
 2-Ocupa 11 bytes. Es una estructura de datos tipo byte (creo)
-3-Se almacena de forma secuencial. La cadena de texto ocupa 20 bytes así que ocupa 5 palabras. Los .byte ocupan un byte cada
-uno y hay 11 bytes, así que ocupan 2.75 palabras (3 palabras)
 
 
 ---------------------------------------------------------------------------------------
 D
-
-lo dejamos como ejercicio
+Se almacena de forma secuencial. La cadena de texto ocupa 20 bytes así que ocupa 5 palabras. Los .byte ocupan un byte cada
+uno y hay 11 bytes, así que ocupan 2.75 palabras (3 palabras)
 
 ---------------------------------------------------------------------------------------
 
 E
 
-Simulemos un programa
+Simulación del programa.
+
+Main, array e index están como etiquetas y tienen asignadas una dirección de memoria.
+12 palabras ocupadas en total.
 
 
 
