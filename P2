@@ -1,0 +1,26 @@
+A-------------------------------------------
+Done. El programa se llama sumanumeros
+
+
+B-------------------------------------------
+
+
+Se ha almacenado como cualquier otra cadena. Además, como el procesador es little indian, salen al revés. La cadena ocupa en total 3 palabras y un byte. En total 13 bytes (104 bits)
+
+
+C-----------------------------------------
+
+Ya lo hice en el primer apartado :)
+
+
+D-----------------------------------------
+
+Hecho. Cuidado!!! Al cambiar el tipo de datos de los operandos, las instrucciones lw ya no te valen porque no estás leyendo palabras. Si el tipo de datos es byte, deberías hacer
+un lb (load byte)
+
+
+E----------------------------------------
+
+Sin querer, parte de este ejercicio lo hice antes. Ya reservé memoria para operando 1 y operando 2.
+El resto del programa es un poco confuso. Ojo al hacer LB. Aunque funciona con etiquetas, deberías hacerlo de la manera correcta: darle un registro y una DIRECCIÓN de memoria.
+El resto es sencillo. Es cuestión de cargar en la memoria reservada para cada variable el número en concreto a través de registros.
