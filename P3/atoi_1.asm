@@ -1,6 +1,7 @@
 .data
 
 cad: .space 1024
+num: .word 0
 
 .text
 
