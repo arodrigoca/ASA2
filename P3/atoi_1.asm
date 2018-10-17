@@ -1,7 +1,7 @@
 .data
 
-cad: .space 1024
 num: .word 0
+cad: .space 1024
 
 .text
 
@@ -10,31 +10,32 @@ la $a0, cad
 li $a1, 1024
 syscall
 
-li $v0, 4
-la $s0, cad
-syscall
-
-#en s0 guardo la dirección del byte
+#en s0 guardo la direcciï¿½n del byte
 #en t0 guardo el byte
 
 la $s0, cad
+la $s1, num #en s1 guardo la direcciÃ³n de num
+li $t7, 0
+li $t4, 1
+
 main:
 
+ 
 lb $t0, 0($s0)
+
 li $t1, '\n'
 beq $t0, $t1, ndetectada
 
-#print wanna print the char - a number
-lb $t7, 0($s0)
-subi $t7,$t7, 1
-li $v0, 11
-move $a0, $t7
-syscall
-#-----------------------
+#
+#
 
-li $v0, 11
-move $a0, $t0
-syscall
+
+mulo $t7, $t7, 10
+subi $t0, $t0, '0'
+add $t7, $t7, $t0
+
+#
+#
 
 addi $s0, $s0, 1
 
@@ -42,5 +43,12 @@ b main
 
 ndetectada:
 
+mul $t7, $t7, $t4
+la $t5, num
+sw $t7, 0($t5)
+
+li $v0, 1
+move $a0, $t7
+syscall
 li $v0, 10
 syscall
