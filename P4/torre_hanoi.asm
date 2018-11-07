@@ -23,61 +23,52 @@ li $a1, 1 #start
 li $a2, 2 #finish
 li $a3, 3 #extra
 
-jal main_hanoi
+jal hanoi
 
 
 li $v0, 10
 syscall
 
 
-main_hanoi: #(n, start, finish, extra)
+hanoi: #(n, start, finish, extra)
 
-	bne $a0, 0, hanoi
+	bne $a0, 0, hanoi_recursivo
 	jr $ra
 
 
-hanoi:
+hanoi_recursivo:
 
 #operaciones de pila
 
 	subu $sp, $sp, 32 # Stack frame is 32 bytes long
 	sw $ra, 12($sp) # Save return address
 	sw $fp, 8($sp) # Save frame pointer
-	addiu $fp, $sp, 28 # Set up frame pointer
-	sw $a0, 0($fp) #salvar a0 en la pila
-	subu $fp, $fp, 4 #mover el fp en la dir memoria inferior 
-	sw $a1, 0($fp) #salvar a1
-	subu $fp, $fp, 4
-	sw $a2, 0($fp)
-	subu $fp, $fp, 4
-	sw $a3, 0($fp)
-	addiu $fp, $fp, 12 #restaurar el fp a la cima de la pila
+	addiu $fp, $sp, 16
+	sw $a3, 0($fp)  
+	sw $a2, 4($fp)
+	sw $a1, 8($fp)
+	sw $a0, 12($fp)
 	
 #-----------------------------------------------------
 
 #ahora, hay que llamar de nuevo a hanoi(n-1, start, extra, finish)
 
 #antes: a0,   	a1,    	a2,    	a3
-#ahora: a0-1    a1,		a3,		a2
+#ahora: a0-1    a1,	a3,	a2
 
 	subu $a0, $a0, 1 #a0 is now a0-1
-	move $t0, $a2 #use a t register to store a2. This is necessary to flip the 2 registers
-	move $t1, $a3 #same
-	move $a3, $t0 #same. now a3 is a2
-	move $a2, $t1 #same. now a2 is a3
+	move $t0, $a3 #use a t register to store a2. This is necessary to flip the 2 registers
+	move $a3, $a2 #same
+	move $a2, $t0 #same. now a2 is a3
 	
-	jal main_hanoi
+	jal hanoi
 	
 	#restore previous values
 	
-	lw $a0, 0($fp)
-	subu $fp, $fp, 4
-	lw $a1, 0($fp)
-	subu $fp, $fp, 4
-	lw $a2, 0($fp)
-	subu $fp, $fp, 4
 	lw $a3, 0($fp)
-	addiu $fp, $fp, 12
+	lw $a2, 4($fp)
+	lw $a1, 8($fp)
+	lw $a0, 12($fp)
 	
 #print all the things
 
@@ -112,45 +103,23 @@ hanoi:
 	syscall
 	#----------restore a0
 	
-	lw $a0, 0($fp)
-	
-	#----------------prepare hanoi next invocation, save current values
-	
-
-	addiu $fp, $sp, 28 # Set up frame pointer
-	sw $a0, 0($fp) #salvar a0 en la pila
-	subu $fp, $fp, 4 #mover el fp en la dir memoria inferior 
-	sw $a1, 0($fp) #salvar a1
-	subu $fp, $fp, 4
-	sw $a2, 0($fp)
-	subu $fp, $fp, 4
-	sw $a3, 0($fp)
-	addiu $fp, $fp, 12 #restaurar el fp a la cima de la pila
+	move $a0, $t0
 	
 	
 	#--------prepare new values
 	
 	subu $a0, $a0, 1
 	move $t0, $a3
-	move $t1, $a2
-	move $t2, $a1
-	
-	move $a1, $a3
 	move $a3, $a1
+	move $a1, $t0
 	
-	jal main_hanoi
+		
+	jal hanoi
 	
-	lw $a0, 0($fp)
-	subu $fp, $fp, 4
-	lw $a1, 0($fp)
-	subu $fp, $fp, 4
-	lw $a2, 0($fp)
-	subu $fp, $fp, 4
-	lw $a3, 0($fp)
-	addiu $fp, $fp, 12
 	
-	lw $ra, 12($sp)
-	addiu $sp, $sp, 32 #aqui los valores deberian volver a ser 2 1 2 3
+	lw $ra, 12($sp) #el ra y el fp solo se tienen que recuperar cuando haces jr
+	lw $fp, 8($sp)
+	addiu $sp, $sp, 32 
  	jr $ra
 	
 
