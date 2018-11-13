@@ -110,8 +110,12 @@ hanoi_recursivo:
 	
 	subu $a0, $a0, 1
 	move $t0, $a3
-	move $a3, $a1
-	move $a1, $t0
+	move $t1, $a2
+	move $t2, $a1
+	
+	move $a1, $t1
+	move $a2, $t0
+	move $a3, $t2
 	
 		
 	jal hanoi
