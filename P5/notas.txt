@@ -1,0 +1,8 @@
+Ahora veremos la reserva dinámica de memoria.
+
+El heap se reserva pidiéndosela al sistema operativo (en bytes) y nos devuelve la dir de memoria a partir de la cual podemos empezar a guardar datos.
+El simulador no tiene la opción de liberar memoria, sadly.
+
+$t1 en el pdf es la dir de memoria de un nodo
+suipongo que pediremos heap para reservar memoria para los nodos (no tenemos infinitos registros t)
+tree node create devuelve la dir del nodo creado
