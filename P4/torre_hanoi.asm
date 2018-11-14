@@ -113,8 +113,7 @@ hanoi_recursivo:
 	move $t1, $a2
 	move $t2, $a1
 	
-	move $a1, $t1
-	move $a2, $t0
+	move $a1, $t0
 	move $a3, $t2
 	
 		
