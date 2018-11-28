@@ -14,6 +14,11 @@ jal tree_node_create
 
 move $s0, $v0 #save the node in $s0, as we need $v0 to make the syscall, S0 is then our root node
 
+#test printing
+
+#move $a0, $s0
+#jal print
+
 #lw $a0, 0($s0)
 #li $v0, 1
 #syscall
@@ -65,9 +70,19 @@ tree_insert: #a0 is val and $a1 is root
 	
 	lw $a0, 4($fp)
 	lw $a1, 0($fp)
-	
-	
+
+	#here goes the loop	
 	#v0 will be the created node address. In the pdf pseudocode, new_node is this value, v0.
+	loop:
+		lw $t0, 0($a1) #t0 is root_val
+		ble $a0, $t0, case1
+			case1:
+				lw $t1, 4($s1)
+				bne  
+	
+	
+	
+	#
 	
 	lw $ra, 20($sp)
 	lw $fp, 16($sp)
@@ -76,11 +91,45 @@ tree_insert: #a0 is val and $a1 is root
 
 
 
-print:
+print: #receives in a0 the memory address of the root node so it can print the tree
 
-	li $v0, 10
+	bne $a0, 0, recursive_print
+	jr $ra
+
+
+recursive_print:
+
+	subu $sp, $sp, 32 # Stack frame is 32 bytes long
+	sw $ra, 24($sp) # Save return address
+	sw $fp, 20($sp) # Save frame pointer
+	addiu $fp, $sp, 28 #set up frame pointer to a0 
+	sw $a0, 0($fp)
+	#now we prepare the new values
+	move $t0, $a0
+	lw $a0, 4($t0)
+	jal print
+	
+	#restore the previous values
+	lw $a0, 0($fp)
+	#print
+	move $t0, $a0 #we are going to use a0 for syscall. a0 is the address for the node
+	li $v0, 1
+	lw $a0, 0($a0)
 	syscall
-
+	move $a0, $t0
+	#second call to print
+	move $t0, $a0
+	lw $a0, 8($t0)
+	jal print
+	#restore, altough it is not necessary
+	lw $a0, 0($fp)
+	
+	#prepare everything to end the subroutine
+	lw $fp, 20($sp)
+	lw $ra, 24($sp)
+	addiu $sp, $sp, 32
+	jr $ra
+	
 
 tree_node_create:
 
