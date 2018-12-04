@@ -69,20 +69,37 @@ insert_node: #a0 is the address of the root node. a1 is the value of the new nod
 	sw $a1, 0($fp) #store arguments
 	sw $a0, 4($fp)
 	
-	lw $a0, 0($fp) #prepare values for create_node
-	lw $a1, 4($fp)
+	#Prepare values for node_create. If the new value is smaller than the root, root pointer now points new value 
 	
-	jal node_create
+	lw $t0, 0($a0)
+	move $t1, $a1
 	
+	bgt $t1, $t0, new_value_bigger
 	
+	#--------------------------case when new value is smaller than the root node
+	move $a0, $t1 # in this case, create node with null pointer to next
+	li $a1, 0
+	jal node_create #this returned us the address of the new node in $v0
 	lw $a0, 4($fp)
 	lw $a1, 0($fp)
+	sw $v0, 4($s0)
+	move $v0, $a0
+	b end_routine
 	
-	lw $t0, 0($v0) #t0 is the value of the new node
-	lw $t1, 0($a0) #t1 is the value of the first node
+	#--------------------------case when the new valye is bigger than the root node
 	
-	bgt $t0, $t1, end_read
+	new_value_bigger:
 	
+	move $a0, $a1
+	move $a1, $s0
+	jal node_create
+	lw $a0, 4($fp)
+	lw $a1, 0($fp)
+	#in v0 will be the new node address
+		
+	#--------------------------------
+	
+	end_routine:
 	
 	lw $ra, 16($sp) #end subrutine
 	lw $fp, 20($sp)
