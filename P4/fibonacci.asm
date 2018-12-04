@@ -21,7 +21,7 @@ msg1:	.asciiz "Termino n de Fibonnaci: "
 	syscall
 	
 	#-- Calcular F(n)
-	li $a0, 10
+	li $a0, 4
 	jal fibonacci
 	
 	#-- Imprimir resultado
