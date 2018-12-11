@@ -81,19 +81,77 @@ remove_node: #remove_node(pointer to top, int value to remove)
 		beq $t2, 0, caso_1
 		lw $t3, 0($t2) #i need t2.val
 		beq $t3, $a1, caso_2
+		move $t1, $t2
+		b remove_loop
 		
 		
 		caso_2:
 			
-		
+			lw $t3, 4($t2) #get $t2.next
+			sw $t3, 4($t1) #store t2.next in t1.next
+			move $v0, $t2
+			jr $ra
 		
 		caso_1:
 		
-			move $v0, 0	
+			li $v0, 0
+			jr $ra
+
+
+print_tree: #print_tree(->first_node)
+
 	
+	subu $sp, $sp, 32
+	sw $ra, 24($sp)
+	sw $fp, 20($sp)
+	addiu $fp, $sp, 28
+	sw $a0, 0($fp)
+	
+	lw $t0, 4($a0)
+	beq $t0, 0, print_number
+	
+	lw $a0, 4($a0)
+	jal print_tree
+	
+	lw $a0, 0($fp)
+	
+	
+	print_number:
+		
+		lw $a0, 0($a0)
+		beq $a0, 0, fin_print
+		li $v0, 1
+		syscall
+		lw $a0, 0($fp) #restore value
+		
+		li $v0, 11
+		li $a0, '\n'
+		syscall
+		lw $a0, 0($fp) #restore value
+	
+	fin_print:
+	
+		lw $ra, 24($sp)
+		lw $fp, 20($sp)
+		addi $sp, $sp, 32
+		jr $ra
 	
 
+
 end_program:
+
+	li $v0, 5
+	syscall
+	#v0 contains integer read
+	beq $v0, 0, skip
+	move $a1, $v0 #prepares arguments to remove
+	move $a0, $s0 
 	
+	jal remove_node
+	
+	
+	skip:
+	move $a0, $s0
+	jal print_tree
 	li $v0, 10
 	syscall
